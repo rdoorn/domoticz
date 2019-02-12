@@ -207,6 +207,7 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -276,6 +277,7 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata.c_str());
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -342,6 +344,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -408,6 +411,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -486,6 +490,7 @@ bool HTTPClient::GETBinarySingleLine(const std::string &url, const std::vector<s
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res == CURLE_HTTP_RETURNED_ERROR)
@@ -666,6 +671,7 @@ bool HTTPClient::GETBinaryToFile(const std::string &url, const std::string &outp
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_curl_data_file);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&outfile);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 		curl_easy_cleanup(curl);
 
