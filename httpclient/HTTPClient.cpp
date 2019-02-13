@@ -111,6 +111,9 @@ void HTTPClient::SetGlobalOptions(void *curlobj)
 	std::string domocookie = szUserDataFolder + "domocookie.txt";
 	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, domocookie.c_str());
 	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, domocookie.c_str());
+	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, domocookie.c_str());
+    curl_easy_setopt(curl, CURLOPT_STDERR, fopen('/curl.txt', 'w+'));
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 }
 
 void HTTPClient::LogError(const long response_code)
