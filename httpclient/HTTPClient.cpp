@@ -96,6 +96,7 @@ void HTTPClient::Cleanup()
 
 void HTTPClient::SetGlobalOptions(void *curlobj)
 {
+
 	CURL *curl=(CURL *)curlobj;
 	curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC | CURLAUTH_DIGEST);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_curl_data);
@@ -111,8 +112,6 @@ void HTTPClient::SetGlobalOptions(void *curlobj)
 	std::string domocookie = szUserDataFolder + "domocookie.txt";
 	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, domocookie.c_str());
 	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, domocookie.c_str());
-	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, domocookie.c_str());
-    curl_easy_setopt(curl, CURLOPT_STDERR, fopen('/curl.txt', 'w+'));
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 }
 
@@ -211,6 +210,12 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
 		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
+
+        FILE* logfile;
+
+        logfile = fopen("/curl.txt", "wb");
+        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -230,6 +235,8 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		}
 
 		curl_easy_cleanup(curl);
+
+        fclose(logfile);
 
 		if (headers != NULL) {
 			curl_slist_free_all(headers); /* free the header list */
@@ -281,6 +288,11 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata.c_str());
 		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
+        FILE* logfile;
+
+        logfile = fopen("/curl.txt", "wb");
+        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -300,6 +312,7 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_cleanup(curl);
+        fclose(logfile);
 
 		if (headers != NULL)
 		{
@@ -348,6 +361,10 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
 		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
+        FILE* logfile;
+
+        logfile = fopen("/curl.txt", "wb");
+        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -367,6 +384,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
+        fclose(logfile);
 
 		if (headers != NULL)
 		{
@@ -415,6 +433,10 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
 		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
+        FILE* logfile;
+
+        logfile = fopen("/curl.txt", "wb");
+        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -434,6 +456,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
+        fclose(logfile);
 
 		if (headers != NULL)
 		{
