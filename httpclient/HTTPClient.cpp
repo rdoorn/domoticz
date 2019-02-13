@@ -112,7 +112,8 @@ void HTTPClient::SetGlobalOptions(void *curlobj)
 	std::string domocookie = szUserDataFolder + "domocookie.txt";
 	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, domocookie.c_str());
 	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, domocookie.c_str());
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+    curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1L);
 }
 
 void HTTPClient::LogError(const long response_code)
@@ -209,12 +210,12 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 
-        FILE* logfile;
-
-        logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        FILE *logfile = fopen( "/curl.txt", "w+" );
+        if( logfile )
+        {
+            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        }
 
 		res = curl_easy_perform(curl);
 
@@ -236,7 +237,10 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 
 		curl_easy_cleanup(curl);
 
-        fclose(logfile);
+        if( logfile )
+        {
+            fclose(logfile);
+        }
 
 		if (headers != NULL) {
 			curl_slist_free_all(headers); /* free the header list */
@@ -287,11 +291,11 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata.c_str());
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
-        FILE* logfile;
-
-        logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        FILE *logfile = fopen( "/curl.txt", "w+" );
+        if( logfile )
+        {
+            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        }
 
 		res = curl_easy_perform(curl);
 
@@ -312,7 +316,11 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_cleanup(curl);
-        fclose(logfile);
+
+        if( logfile )
+        {
+            fclose(logfile);
+        }
 
 		if (headers != NULL)
 		{
@@ -360,11 +368,13 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
-        FILE* logfile;
 
-        logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        FILE *logfile = fopen( "/curl.txt", "w+" );
+        if( logfile )
+        {
+            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        }
+
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -384,7 +394,11 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
-        fclose(logfile);
+
+        if( logfile )
+        {
+            fclose(logfile);
+        }
 
 		if (headers != NULL)
 		{
@@ -432,11 +446,13 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
-        FILE* logfile;
 
-        logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        FILE *logfile = fopen( "/curl.txt", "w+" );
+        if( logfile )
+        {
+            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
+        }
+
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -456,7 +472,11 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
-        fclose(logfile);
+
+        if( logfile )
+        {
+            fclose(logfile);
+        }
 
 		if (headers != NULL)
 		{
@@ -516,7 +536,6 @@ bool HTTPClient::GETBinarySingleLine(const std::string &url, const std::vector<s
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&response);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 
 		if (res == CURLE_HTTP_RETURNED_ERROR)
@@ -697,7 +716,6 @@ bool HTTPClient::GETBinaryToFile(const std::string &url, const std::string &outp
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_curl_data_file);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&outfile);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-		curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, 1);
 		res = curl_easy_perform(curl);
 		curl_easy_cleanup(curl);
 
