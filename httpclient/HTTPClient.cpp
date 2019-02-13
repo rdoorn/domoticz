@@ -214,7 +214,7 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
         FILE* logfile;
 
         logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
 
 		res = curl_easy_perform(curl);
 
@@ -291,7 +291,7 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
         FILE* logfile;
 
         logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
 
 		res = curl_easy_perform(curl);
 
@@ -364,7 +364,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
         FILE* logfile;
 
         logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -436,7 +436,7 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
         FILE* logfile;
 
         logfile = fopen("/curl.txt", "wb");
-        curl_easy_setopt(hnd, CURLOPT_STDERR, logfile);
+        curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
