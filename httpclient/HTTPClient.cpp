@@ -211,12 +211,6 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1);
 
-        FILE *logfile = fopen( "/curl.txt", "w+" );
-        if( logfile )
-        {
-            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
-        }
-
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -236,11 +230,6 @@ bool HTTPClient::GETBinary(const std::string &url, const std::vector<std::string
 		}
 
 		curl_easy_cleanup(curl);
-
-        if( logfile )
-        {
-            fclose(logfile);
-        }
 
 		if (headers != NULL) {
 			curl_slist_free_all(headers); /* free the header list */
@@ -291,11 +280,6 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata.c_str());
-        FILE *logfile = fopen( "/curl.txt", "w+" );
-        if( logfile )
-        {
-            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
-        }
 
 		res = curl_easy_perform(curl);
 
@@ -316,11 +300,6 @@ bool HTTPClient::POSTBinary(const std::string &url, const std::string &postdata,
 		}
 
 		curl_easy_cleanup(curl);
-
-        if( logfile )
-        {
-            fclose(logfile);
-        }
 
 		if (headers != NULL)
 		{
@@ -369,12 +348,6 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
 
-        FILE *logfile = fopen( "/curl.txt", "w+" );
-        if( logfile )
-        {
-            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
-        }
-
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -394,11 +367,6 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
-
-        if( logfile )
-        {
-            fclose(logfile);
-        }
 
 		if (headers != NULL)
 		{
@@ -447,12 +415,6 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putdata.c_str());
 
-        FILE *logfile = fopen( "/curl.txt", "w+" );
-        if( logfile )
-        {
-            curl_easy_setopt(curl, CURLOPT_STDERR, logfile);
-        }
-
 		res = curl_easy_perform(curl);
 
 		if (res != CURLE_OK)
@@ -472,11 +434,6 @@ std::vector<std::string> &vHeaderData, const long TimeOut)
 		}
 
 		curl_easy_cleanup(curl);
-
-        if( logfile )
-        {
-            fclose(logfile);
-        }
 
 		if (headers != NULL)
 		{
